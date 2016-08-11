@@ -2,8 +2,14 @@
 
 class ProductFactory
 {
-    static GetProduct() : CocaCola
+    static GetProduct() : Product
     {
-        return new CocaCola();
+        let random = Math.floor(Math.random()*3);
+        switch(random)
+        {
+            case 0: return new CocaCola();
+            case 1: return new Hershey();
+            default: return new CocaCola();
+        }
     }
 }
