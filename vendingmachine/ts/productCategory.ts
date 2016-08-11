@@ -1,6 +1,6 @@
 class SodaCategory {
     name = "Soda";
-    getImageUr(): string 
+    getImageUrl(): string 
     {
         return "img/SodaCan.jpg"
     }

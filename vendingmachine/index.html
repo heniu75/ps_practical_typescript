@@ -12,9 +12,13 @@
     <div class="container">
         <h1> Vending machine simulation</h1>
         <div class="col-md-8" data-bind="foreach: cells">
-            <div class="col-md-4 cell">
+            <div class="col-md-4 cell" , data-bind="click: $parent.select, 
+                css: {selected: $parent.selectedCell().product == $data.product,
+                sold: sold }">
                 <div class="col-md-6 image">
-                    <img data-bind="attr: { src: product.category.getImageUrl(), alt: product.category.name }" />
+                    <img data-bind="attr: {src: product.category.getImageUrl(), alt: product.category.name }" />
+                    <!--<img data-bind="attr: { src: product.category.getImageUrl(), alt: product.category.name }" />
+                    <img data-bind="attr: { src: product.category.getImageUrl() }" />-->
                 </div>
                 <div class="col-md-6 productInfo">
                     <div data-bind="text: product.name"></div>
@@ -30,9 +34,14 @@
                 <div data-bind="foreach: acceptedCoins">
                     <img data-bind="attr: { src: getImageUrl(), alt: Value }, click: $parent.acceptCoin" />
                 </div>
-                <!--<button class="btn btn-primary" onclick="machine.acceptCoin(new Quarter())">
-                    Insert Quarter
-                </button>-->
+                <h3 data-bind="with: selectedCell">
+                    <div data-bind="text: product.name"></div>
+                    <div>
+                        $
+                        <span data-bind="text: product.price"></span>
+                    </div>
+                </h3>
+                <button class="btn btn-primaryh payButton" data-bind="enable: canPay, click: pay">Pay</button>
             </h4>
         </div>
     </div>

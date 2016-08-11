@@ -18,7 +18,7 @@ var SodaCategory = (function () {
     function SodaCategory() {
         this.name = "Soda";
     }
-    SodaCategory.prototype.getImageUr = function () {
+    SodaCategory.prototype.getImageUrl = function () {
         return "img/SodaCan.jpg";
     };
     return SodaCategory;
@@ -64,9 +64,27 @@ var VendingMachine = (function () {
         this.paid = ko.observable(0);
         this.cells = ko.observableArray([]);
         this.acceptedCoins = [new Quarter()];
+        this.selectedCell = ko.observable(new Cell(new CocaCola()));
+        this.canPay = ko.pureComputed(function () { return _this.paid() -
+            _this.selectedCell().product.price >= 0; });
+        this.select = function (cell) {
+            cell.sold(false);
+            _this.selectedCell(cell);
+        };
         this.acceptCoin = function (coin) {
             var oldTotal = _this.paid();
             _this.paid(oldTotal + coin.Value);
+        };
+        this.pay = function () {
+            if (_this.selectedCell().stock() < 1) {
+                alert("I'm sorry, we're out of them!");
+                return;
+            }
+            var currentPaid = _this.paid();
+            _this.paid(Math.round(((currentPaid - _this.selectedCell().product.price) * 100)) / 100);
+            var currentStock = _this.selectedCell().stock();
+            _this.selectedCell().stock(currentStock - 1);
+            _this.selectedCell().sold(true);
         };
     }
     Object.defineProperty(VendingMachine.prototype, "size", {
